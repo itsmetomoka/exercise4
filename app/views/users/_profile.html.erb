@@ -12,9 +12,26 @@
 					  <%= user.introduction %>
 					</td></tr>
 					<tr><td>
+						<h5>Follows</h5>
+					</td><td>
+						<%= link_to user.follow_count, {controller: :users,action: :follow_list,user_id: user.id}, method: :get%>
+					</td></tr>
+					<tr><td>
+						<h5>followers</h5>
+					</td><td>
+						<%= link_to user.followers_count,{controller: :users,action: :follower_list,user_id: user.id}, method: :get %>
+					</td></tr>
 						<% if user == current_user %>
-							<%= link_to edit_user_path(user), class:"btn btn-outline-secondary btn-block" do %><i class="fas fa-wrench"></i>
+						<tr><td>
+							<%= link_to edit_user_path(user), class:"btn btn-outline-secondary btn-block" do %><i class="fas fa-wrench"></i></td></tr>
 							<% end %>
+						<% else %>
+						<% if current_user.following? user %>
+						  <tr><td><%= link_to "UnFollow", {controller: :users,action: :unfollow,user_id: user.id}, method: :put ,class:"btn btn-outline-secondary btn-block"%>
+						  </td></tr>
+						  <% else %>
+						  <tr><td><%= link_to "Follow", {controller: :users,action: :follow,user_id: user.id}, method: :put, class:"btn btn-outline-primary btn-block"%>
+						  </td></tr>
+						  <% end %>
 						<% end %>
-				  </td></tr>
 				</table>
